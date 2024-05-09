@@ -1,4 +1,4 @@
-#funções de carreagr chaves, além de import e export e salvamento das chaves 
+#funções de carreagr chaves, alem de import e export e salvamento das chaves 
 from Crypto.PublicKey import RSA
 from generator_keys import generate_keys
 
@@ -44,8 +44,10 @@ if __name__ == '__main__':
     public_key = load_public_key('publickey.pem')
     #print(private_key.export_key('PEM')) #imprime a chave privada decodificada
     
+    '''
+    #testes
     if True:  #exporta o par de chaves
-        export_keys('exported_public.pem','exported_private.pem')
+        export_keys('exported_publickey.pem','exported_privatekey.pem')
         print('chaves exportadas')
     
     if True:  #exporta só a chave publica
@@ -59,5 +61,5 @@ if __name__ == '__main__':
     if True:  #importa só a chave publica
         public_key = import_public_key('exported_public.pem')
         print('chave publica importada')
-
+    '''
     
