@@ -1,3 +1,4 @@
+#gera as chaves publica e privada no modelo openssl
 from Crypto.PublicKey import RSA 
 
 def generate_keys():
@@ -15,5 +16,7 @@ def generate_keys():
 
 if __name__ == '__main__':
     generate_keys()
+    
+
  
 
