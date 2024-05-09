@@ -1,22 +1,45 @@
 #gera as chaves publica e privada no modelo openssl
-from Crypto.PublicKey import RSA 
+from Crypto.PublicKey import RSA
+import random
+import string
+import json
 
-def generate_keys():
+usuarios = dict()
+
+def generate_keys(nome):
     # gerar um par de chaves RSA
     key = RSA.generate(1024)
-    
+
     # salva a chave privada em um arquivo
-    f_private = open('myprivatekey.pem','wb')
+    string_length = 10
+    chars = string.ascii_letters + string.digits
+    random_string = ''.join(random.sample(chars, string_length))
+    f_private = open(f'keys/{random_string}.pem','wb')
     f_private.write(key.export_key('PEM'))
     f_private.close()
     # salva a chave publica em um arquivo
-    f_public = open('mypublickey.pem','wb')
+    f_public = open(f'keys/{nome}publickey.pem','wb')
     f_public.write(key.public_key().export_key('PEM'))
     f_public.close()
 
+    save_user(nome, f'keys/{random_string}.pem', f'keys/{nome}publickey.pem')
+
+def save_user(nome, priv_key_path, pub_key_path):
+    # carrega os usuarios do json para o dicionario
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+
+    #cadastrar um novo usuario no dicionario
+    senha = str(input('Cadastre uma senha: ')).strip()
+    usuarios[nome] = {'senha': senha, 'private_key': priv_key_path, 'public_key': pub_key_path}
+
+    #salva o json com o novo usuario
+    with open('usuarios.json', 'w') as f:
+        json.dump(usuarios, f)
+
 if __name__ == '__main__':
     generate_keys()
-    
 
- 
+
+
 
