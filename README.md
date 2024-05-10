@@ -1,2 +1,2 @@
 # CriptoSeg
-Trabalho de Gerenciamento de Chaves de Criptografia.
+Gerenciamento de Chaves de Criptografia.
