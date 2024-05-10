@@ -10,9 +10,7 @@ def generate_keys():
     f_private.write(key.export_key('PEM'))
     f_private.close()
     # salva a chave publica em um arquivo
-    f_public = open('mypublickey.pem','wb')
-    f_public.write(key.public_key().export_key('PEM'))
-    f_public.close()
+    
 
 if __name__ == '__main__':
     generate_keys()
