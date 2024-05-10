@@ -7,7 +7,7 @@ import json
 usuarios = dict()
 
 def generate_keys():
-    nome = input('Digite o nome do usuario: ')
+    nome = input('Cadastre um nome de usuario: ')
     # checa se o nome ja foi cadastrado
     with open('usuarios.json', 'r') as jsonfile:
         usuarios = json.load(jsonfile)
@@ -16,7 +16,7 @@ def generate_keys():
         generate_keys()
     # gerar um par de chaves RSA
     key = RSA.generate(1024)
-    
+
     # salva a chave privada em um arquivo
     string_length = 10
     chars = string.ascii_letters + string.digits
