@@ -1,4 +1,4 @@
-#funções de carreagr chaves, alem de import e export e salvamento das chaves 
+#funções de carreagr chaves, alem de import e export e salvamento das chaves
 from Crypto.PublicKey import RSA
 from generator_keys import generate_keys
 
@@ -19,11 +19,11 @@ def export_keys(public_key, private_key):  #exporta o par de chaves myprivatekey
         f_private.write(private_key.export_key('PEM'))
     with open(public_key, 'wb') as f_public:
         f_public.write(public_key.export_key('PEM'))
-        
+
 def export_public_key(public_key):  #exporta a chave publica criada 'publickey.pem'
     with open(public_key, 'wb') as f_public:
         f_public.write(public_key.export_key('PEM'))
-        
+
 def import_keys(public_key, private_key):  #importa o par de chaves privatekey.pem e publickey.pem
     with open(private_key, 'rb') as f_private:
         private_key = RSA.import_key(f_private.read())
@@ -35,12 +35,12 @@ def import_public_key(public_key_arq):  #importa a chave publica enviada pelo re
     with open(public_key_arq, 'rb') as f_public:
         public_key = RSA.import_key(f_public.read())
     return public_key
-    
+
 if __name__ == '__main__':
     #carrega a chave privada e publica a partir dos arquivos criados, em bytes
     private_key = load_private_key('myprivatekey.pem')
     public_key = load_public_key('mypublickey.pem')
-    
+
     #testes
     if True:  #exporta o par de chaves
         export_keys('exported_publickey.pem','exported_privatekey.pem')

@@ -39,7 +39,3 @@ if __name__ == '__main__':
     chave_privada = import_public_key('myprivatekey.pem')
     cifragem('text_claro.txt', chave_publica)
     decifragem('mensagem_cifrada.txt', chave_privada)
-
-
-
-

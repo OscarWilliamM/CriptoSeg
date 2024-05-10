@@ -6,7 +6,14 @@ import json
 
 usuarios = dict()
 
-def generate_keys(nome):
+def generate_keys():
+    nome = input('Cadastre um nome de usuario: ')
+    # checa se o nome ja foi cadastrado
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+    if nome in usuarios:
+        print('Já há um usuario cadastrado com esse nome!\nTente outro nome.')
+        generate_keys()
     # gerar um par de chaves RSA
     key = RSA.generate(1024)
 
@@ -24,11 +31,11 @@ def generate_keys(nome):
 
     save_user(nome, f'keys/{random_string}.pem', f'keys/{nome}publickey.pem')
 
+
 def save_user(nome, priv_key_path, pub_key_path):
     # carrega os usuarios do json para o dicionario
     with open('usuarios.json', 'r') as jsonfile:
         usuarios = json.load(jsonfile)
-
     #cadastrar um novo usuario no dicionario
     senha = str(input('Cadastre uma senha: ')).strip()
     usuarios[nome] = {'senha': senha, 'private_key': priv_key_path, 'public_key': pub_key_path}
@@ -72,10 +79,53 @@ def list_user_privkey(nome, senha):
     print('usuario não encontrado ou não existe')
     return None
 
+#lista todos os nomes associados as chaves publicas
+def list_users():
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+    for nome in usuarios:
+        print(nome)
+
+#fução que busca e retorna a chave publica de um usuario pesquisando pelo nome
+def list_user_pubkey(nome):
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+
+    for user in usuarios:
+        if user == nome:
+            print(usuarios[user]['public_key'])
+            return usuarios[user]['public_key']
+    print('usuario não encontrado')
+    return None
+
+#funcao pesquisa e retorna a chave privada de um usuario buscando pelo nome (necessario senha)
+def list_user_privkey(nome, senha):
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+
+    for user in usuarios:
+        if user == nome:
+            if usuarios[user]['senha'] == senha:
+                print(usuarios[user]['private_key'])
+                return usuarios[user]['private_key']
+            else:
+                print('senha incorreta')
+                return None
+    print('usuario não encontrado ou não existe')
+    return None
+
 if __name__ == '__main__':
+
     nome= input('Digite o nome: ')
     #senha= input('Digite a senha: ')
     #generate_keys(nome)
     #list_users()
     #list_user_pubkey(nome)
     #list_user_privkey(nome, senha)
+
+    generate_keys()
+    list_users()
+    list_user_pubkey("Maria")
+    list_user_privkey("Maria", "qualquer")
+
+
