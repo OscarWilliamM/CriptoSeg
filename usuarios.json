@@ -1,1 +1,1 @@
-{"joao": {"senha": "teste", "private_key": "keys/xcsz8n7jWS.pem", "public_key": "keys/joaopublickey.pem"}}
+{"joao": {"senha": "teste", "private_key": "keys/xcsz8n7jWS.pem", "public_key": "keys/joaopublickey.pem"}, "lucas": {"senha": "teste", "private_key": "keys/FUy8j7oNsh.pem", "public_key": "keys/lucaspublickey.pem"}, "Maria": {"senha": "qualquer", "private_key": "keys/2S0FHsLvMO.pem", "public_key": "keys/Mariapublickey.pem"}, "Neymar": {"senha": "qwerty", "private_key": "keys/ivcNPzmDuF.pem", "public_key": "keys/Neymarpublickey.pem"}}
