@@ -37,9 +37,46 @@ def save_user(nome, priv_key_path, pub_key_path):
     with open('usuarios.json', 'w') as f:
         json.dump(usuarios, f)
 
+#lista todos os nomes associados as chaves publicas
+def list_users():
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+    for nome in usuarios:
+        print(nome)
+
+#fução que busca e retorna a chave publica de um usuario pesquisando pelo nome
+def list_user_pubkey(nome):
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+
+    for user in usuarios:
+        if user == nome:
+            print(usuarios[user]['public_key'])
+            return usuarios[user]['public_key']
+    print('usuario não encontrado')
+    return None
+
+#funcao pesquisa e retorna a chave privada de um usuario buscando pelo nome (necessario senha)
+def list_user_privkey(nome, senha):
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+
+    for user in usuarios:
+        if user == nome:
+            if usuarios[user]['senha'] == senha:
+                print(usuarios[user]['private_key'])
+                return usuarios[user]['private_key']
+            else:
+                print('senha incorreta')
+                return None
+    print('usuario não encontrado ou não existe')
+    return None
+
 if __name__ == '__main__':
-    generate_keys()
-
-
-
+    nome= input('Digite o nome: ')
+    #senha= input('Digite a senha: ')
+    #generate_keys(nome)
+    #list_users()
+    #list_user_pubkey(nome)
+    #list_user_privkey(nome, senha)
 
