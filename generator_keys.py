@@ -25,7 +25,7 @@ def generate_keys(nome, senha):
     key = RSA.generate(1024)
 
     # salva a chave privada em um arquivo
-    string_length = 10
+    string_length = 12
     chars = string.ascii_letters + string.digits
     random_string = ''.join(random.sample(chars, string_length))
     f_private = open(f'keys/{random_string}.pem','wb')
