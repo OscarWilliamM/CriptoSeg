@@ -7,8 +7,7 @@ import os
 
 usuarios = dict()
 
-def generate_keys():
-    nome = input('Cadastre um nome de usuario: ')
+def generate_keys(nome, senha):
 
     if not os.path.exists('keys'): #cria a pasta keys se ela nao existir
         os.makedirs('keys')
@@ -37,15 +36,14 @@ def generate_keys():
     f_public.write(key.public_key().export_key('PEM'))
     f_public.close()
 
-    save_user(nome, f'keys/{random_string}.pem', f'keys/{nome}publickey.pem')
+    save_user(nome, f'keys/{random_string}.pem', f'keys/{nome}publickey.pem', senha)
 
 
-def save_user(nome, priv_key_path, pub_key_path):
+def save_user(nome, priv_key_path, pub_key_path, senha):
     # carrega os usuarios do json para o dicionario
     with open('usuarios.json', 'r') as jsonfile:
         usuarios = json.load(jsonfile)
-    #cadastrar um novo usuario no dicionario
-    senha = str(input('Cadastre uma senha: ')).strip()
+    senha = senha.strip()
     usuarios[nome] = {'senha': senha, 'private_key': priv_key_path, 'public_key': pub_key_path}
 
     #salva o json com o novo usuario
@@ -63,7 +61,7 @@ def list_users():
         print('não há usuarios cadastrados')
 
 #fução que busca e retorna a chave publica de um usuario pesquisando pelo nome
-def list_user_pubkey(nome):
+def search_pubkey(nome):
     if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
         with open('usuarios.json', 'r') as jsonfile:
             usuarios = json.load(jsonfile)
@@ -77,7 +75,7 @@ def list_user_pubkey(nome):
         print('não há usuarios cadastrados')
         
 #funcao pesquisa e retorna a chave privada de um usuario buscando pelo nome (necessario senha)
-def list_user_privkey(nome, senha):
+def search_privkey(nome, senha):
     if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
         with open('usuarios.json', 'r') as jsonfile:
             usuarios = json.load(jsonfile)
@@ -118,7 +116,7 @@ def delete_keys(nome, senha):
 if __name__ == '__main__':
     generate_keys()
     #list_users()
-    #list_user_pubkey("joao")
-    #list_user_privkey("marcelo", "1234")
+    #search_pubkey("joao")
+    #search_privkey("marcelo", "1234")
     #delete_keys("paulo mota", "12345")
     
