@@ -31,7 +31,7 @@ def import_keys(public_key, private_key):  #importa o par de chaves privatekey.p
         public_key = RSA.import_key(f_public.read())
     return public_key, private_key
 
-def import_public_key(public_key_arq):  #importa a chave publica enviada pelo remetente
+def import_public_key(public_key_arq):  #importa a chave publica de acordo com o nome do usuario
     with open(public_key_arq, 'rb') as f_public:
         public_key = RSA.import_key(f_public.read())
     return public_key
