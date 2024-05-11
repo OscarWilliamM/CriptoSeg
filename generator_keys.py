@@ -3,14 +3,22 @@ from Crypto.PublicKey import RSA
 import random
 import string
 import json
+import os
 
 usuarios = dict()
 
 def generate_keys():
     nome = input('Cadastre um nome de usuario: ')
-    # checa se o nome ja foi cadastrado
+
+    if not os.path.exists('keys'): #cria a pasta keys se ela nao existir
+        os.makedirs('keys')
+    if not os.path.exists('usuarios.json'): #cria o arquivo json se ele não existir
+            with open('usuarios.json', 'w') as jsonfile:
+                jsonfile.write('{}')
+                
     with open('usuarios.json', 'r') as jsonfile:
         usuarios = json.load(jsonfile)
+    # checa se o nome ja foi cadastrado
     if nome in usuarios:
         print('Já há um usuario cadastrado com esse nome!\nTente outro nome.')
         generate_keys()
@@ -46,60 +54,71 @@ def save_user(nome, priv_key_path, pub_key_path):
 
 #lista todos os nomes associados as chaves publicas
 def list_users():
-    with open('usuarios.json', 'r') as jsonfile:
-        usuarios = json.load(jsonfile)
-    for nome in usuarios:
-        print(nome)
+    if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
+        with open('usuarios.json', 'r') as jsonfile:
+            usuarios = json.load(jsonfile)
+        for nome in usuarios:
+            print(nome)
+    else:
+        print('não há usuarios cadastrados')
 
 #fução que busca e retorna a chave publica de um usuario pesquisando pelo nome
 def list_user_pubkey(nome):
-    with open('usuarios.json', 'r') as jsonfile:
-        usuarios = json.load(jsonfile)
+    if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
+        with open('usuarios.json', 'r') as jsonfile:
+            usuarios = json.load(jsonfile)
 
-    for user in usuarios:
-        if user == nome:
-            print(usuarios[user]['public_key'])
-            return usuarios[user]['public_key']
-    print('usuario não encontrado')
-    return None
-
+        for user in usuarios:
+            if user == nome:
+                print(usuarios[user]['public_key'])
+                return usuarios[user]['public_key']
+        print('usuario não encontrado')
+    else:
+        print('não há usuarios cadastrados')
+        
 #funcao pesquisa e retorna a chave privada de um usuario buscando pelo nome (necessario senha)
 def list_user_privkey(nome, senha):
-    with open('usuarios.json', 'r') as jsonfile:
-        usuarios = json.load(jsonfile)
+    if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
+        with open('usuarios.json', 'r') as jsonfile:
+            usuarios = json.load(jsonfile)
 
-    for user in usuarios:
-        if user == nome:
-            if usuarios[user]['senha'] == senha:
-                print(usuarios[user]['private_key'])
-                return usuarios[user]['private_key']
-            else:
-                print('senha incorreta')
-                return None
-    print('usuario não encontrado ou não existe')
-    return None
+        for user in usuarios:
+            if user == nome:
+                if usuarios[user]['senha'] == senha:
+                    print(usuarios[user]['private_key'])
+                    return usuarios[user]['private_key']
+                else:
+                    print('senha incorreta')
+                    
+        print('usuario não encontrado ou não existe')
+    else:
+        print('não há usuarios cadastrados')
 
 def delete_keys(nome, senha):
-    with open('usuarios.json', 'r') as jsonfile:
-        usuarios = json.load(jsonfile)
+    if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
+        with open('usuarios.json', 'r') as jsonfile:
+            usuarios = json.load(jsonfile)
 
-    for user in usuarios:
-        if user == nome:
-            if usuarios[user]['senha'] == senha:
-                del usuarios[user]
-                with open('usuarios.json', 'w') as f:
-                    json.dump(usuarios, f)
-                return True
-            else:
-                print('senha incorreta')
-                return False
-    print('usuario não encontrado ou não existe')
-    return False
+        for user in usuarios:
+            if user == nome:
+                if usuarios[user]['senha'] == senha:
+                    os.remove(usuarios[user]['private_key'])    #deleta a chave privada do usuario de 'keys'
+                    os.remove(usuarios[user]['public_key'])  #deleta a chave publica do usuario de 'keys'
+                    del usuarios[user]    #deleta o usuario de usuarios.json
+                    with open('usuarios.json', 'w') as f:
+                        json.dump(usuarios, f)
+                    return True
+                else:
+                    print('senha incorreta')
+
+        print('usuario não encontrado ou não existe')
+    else:
+        print('não há usuarios cadastrados')
 
 if __name__ == '__main__':
     generate_keys()
-    list_users()
-    list_user_pubkey("joao")
-    list_user_privkey("marcelo", "1234")
-    delete_keys("oscar", "1234")
+    #list_users()
+    #list_user_pubkey("joao")
+    #list_user_privkey("marcelo", "1234")
+    #delete_keys("paulo mota", "12345")
     
