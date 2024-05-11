@@ -11,6 +11,9 @@ mensagens = dict()
 
 def cifragem(nome):
     usuarios = retorna_usuarios()
+    if nome not in usuarios:
+        print('Usuario não encontrado!')
+        return
     pub_key = usuarios[nome]['public_key']
     #carrega o conteudo do arq com o texto claro
     mensagem = str(input('Digite a mensagem a ser cifrada: ')).encode('utf-8')
