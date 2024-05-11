@@ -9,13 +9,21 @@ sg.theme('DarkAmber')
 sg.SetOptions(element_padding=(50, 50))
 #botoes da janela principal
 layout = [[sg.Text('Bem vindo ao gerenciador de chaves!')],
+<<<<<<< HEAD
         [sg.Button('Gerar chaves'), sg.Button('Criptografar e Decifragem'), 
+=======
+        [sg.Button('Gerar chaves'), sg.Button('Criptografar e Decifragem'),
+>>>>>>> origin/lucas
         sg.Button('Pesquisar chaves'), sg.Button('Sair')]]
 
 window = sg.Window('Gerenciador de chaves', layout)
 
 #loop de eventos
+<<<<<<< HEAD
 while True: 
+=======
+while True:
+>>>>>>> origin/lucas
     event, value = window.read()
     if event == sg.WIN_CLOSED or event == 'Sair':
         break
@@ -39,8 +47,13 @@ while True:
                 gerar_window.close()
                 window = sg.Window('Gerenciador de chaves', layout)
                 break
+<<<<<<< HEAD
         
 window.close()
 
                 
     
+=======
+
+window.close()
+>>>>>>> origin/lucas

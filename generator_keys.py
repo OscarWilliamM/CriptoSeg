@@ -14,7 +14,11 @@ def generate_keys(nome, senha):
     if not os.path.exists('usuarios.json'): #cria o arquivo json se ele não existir
             with open('usuarios.json', 'w') as jsonfile:
                 jsonfile.write('{}')
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> origin/lucas
     with open('usuarios.json', 'r') as jsonfile:
         usuarios = json.load(jsonfile)
     # checa se o nome ja foi cadastrado
@@ -25,7 +29,7 @@ def generate_keys(nome, senha):
     key = RSA.generate(1024)
 
     # salva a chave privada em um arquivo
-    string_length = 10
+    string_length = 12
     chars = string.ascii_letters + string.digits
     random_string = ''.join(random.sample(chars, string_length))
     f_private = open(f'keys/{random_string}.pem','wb')
@@ -65,6 +69,17 @@ def search_pubkey(nome):
     if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
         with open('usuarios.json', 'r') as jsonfile:
             usuarios = json.load(jsonfile)
+<<<<<<< HEAD
+=======
+
+        for user in usuarios:
+            if user == nome:
+                print(usuarios[user]['public_key'])
+                return usuarios[user]['public_key']
+        print('usuario não encontrado')
+    else:
+        print('não há usuarios cadastrados')
+>>>>>>> origin/lucas
 
         for user in usuarios:
             if user == nome:
@@ -87,7 +102,11 @@ def search_privkey(nome, senha):
                     return usuarios[user]['private_key']
                 else:
                     print('senha incorreta')
+<<<<<<< HEAD
                     
+=======
+
+>>>>>>> origin/lucas
         print('usuario não encontrado ou não existe')
     else:
         print('não há usuarios cadastrados')
@@ -119,4 +138,7 @@ if __name__ == '__main__':
     #search_pubkey("joao")
     #search_privkey("marcelo", "1234")
     #delete_keys("paulo mota", "12345")
+<<<<<<< HEAD
     
+=======
+>>>>>>> origin/lucas
