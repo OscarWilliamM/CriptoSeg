@@ -12,6 +12,7 @@ def cifragem(texto, chave_publica, nome):
         os.makedirs('keys')
     substring = '\n'
     pub_key = str(chave_publica[:chave_publica.index(substring)]).strip()
+    pub_key = pub_key.split(" ")[2]
     print(pub_key)
     #carrega o conteudo do arq com o texto claro
     arquivo = texto
