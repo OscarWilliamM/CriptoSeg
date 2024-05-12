@@ -67,11 +67,15 @@ def search_pubkey(nome):
 
         for user in usuarios:
             if user == nome:
-                print(usuarios[user]['public_key'])
-                return usuarios[user]['public_key']
+                endereco = usuarios[user]['public_key']
+                print(endereco)
+                with open(endereco, 'rb') as f:
+                    conteudo = f.read()
+                return f'{usuarios[user]['public_key']}\n\n{conteudo.decode("utf-8")}'
         print('usuario não encontrado')
     else:
         print('não há usuarios cadastrados')
+        return 'o nome do usuario não foi encontrado'
 
 #funcao pesquisa e retorna a chave privada de um usuario buscando pelo nome (necessario senha)
 def search_privkey(nome, senha):
@@ -82,10 +86,14 @@ def search_privkey(nome, senha):
         for user in usuarios:
             if user == nome:
                 if usuarios[user]['senha'] == senha:
-                    print(usuarios[user]['private_key'])
-                    return usuarios[user]['private_key']
+                    endereco = usuarios[user]['private_key']
+                    print(endereco)
+                    with open(endereco, 'rb') as f:
+                        conteudo = f.read()
+                    return f'{usuarios[user]['private_key']}\n\n{conteudo.decode("utf-8")}'
                 else:
                     print('senha incorreta')
+                    return 'senha incorreta'
 
         print('usuario não encontrado ou não existe')
     else:

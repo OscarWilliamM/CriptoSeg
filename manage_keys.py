@@ -7,7 +7,7 @@ import PySimpleGUI as sg
 sg.theme('DarkAmber')
 
 #tamanho da janela
-sg.SetOptions(element_padding=(70, 70))
+sg.SetOptions(element_padding=(60, 20))
 #botoes da janela principal
 layout = [[sg.Text('Bem vindo ao gerenciador de chaves!')],
         [sg.Button('Gerar chaves'), sg.Button('Criptografia e Descriptografia'),
