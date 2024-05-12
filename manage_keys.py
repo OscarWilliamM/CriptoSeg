@@ -8,6 +8,7 @@ sg.theme('DarkAmber')
 
 #tamanho da janela
 sg.SetOptions(element_padding=(60, 20))
+sg.SetOptions(font=('Helvetica', 13))
 #botoes da janela principal
 layout = [[sg.Text('Bem vindo ao gerenciador de chaves!')],
         [sg.Button('Gerar chaves'), sg.Button('Criptografia e Descriptografia'),
@@ -40,6 +41,58 @@ while True:
                 sg.Popup('Chave gerada com sucesso!')
                 gerar_window.close()
                 break
+    if event == 'Criptografia e Descriptografia':
+        cripto_layout = [[sg.Text('Escolha uma opção')], [sg.Button('Criptografar'), sg.Button('Descriptografar'), sg.Button('Voltar')]]
+
+        cripto_window = sg.Window('Criptografia e Descriptografia', cripto_layout)
+        while True:
+            cripto_event, cripto_value = cripto_window.read()
+            if cripto_event == sg.WIN_CLOSED or cripto_event == 'Voltar':
+                cripto_window.close()
+                break
+
+            if cripto_event == 'Criptografar':
+                criptografar_layout = [[sg.Text('Digite o nome do destinatário')], [sg.InputText()],
+                    [sg.Text('Digite o nome do arquivo (sem extensão) a ser criptografado')], [sg.InputText()],
+                    [sg.Button('Criptografar'), sg.Button('Voltar')]]
+
+                criptografar_window = sg.Window('Criptografar', criptografar_layout)
+                while True:
+                    criptografar_event, criptografar_value = criptografar_window.read()
+                    if criptografar_event == sg.WIN_CLOSED or criptografar_event == 'Voltar':
+                        criptografar_window.close()
+                        break
+
+                    if criptografar_event == 'Criptografar':
+                        nome = criptografar_value[0]
+                        texto = criptografar_value[1]
+                        pubkey = search_pubkey(nome)
+                        mensagem = enviar_mensagem(texto, pubkey, nome)
+                        sg.popup('Mensagem criptografada com sucesso!', mensagem)
+                        criptografar_window.close()
+                        break
+
+            if cripto_event == 'Descriptografar':
+                descriptografar_layout = [[sg.Text('Digite o seu nome de usuário')], [sg.InputText()],
+                    [sg.Text('Digite a senha para ter acesso a sua chave privada')], [sg.InputText()],
+                    [sg.Text('Digite o nome do arquivo cifrado (sem extensão)')], [sg.InputText()],
+                    [sg.Button('Descriptografar'), sg.Button('Voltar')]]
+
+                descriptografar_window = sg.Window('Descriptografar', descriptografar_layout)
+                while True:
+                    descriptografar_event, descriptografar_value = descriptografar_window.read()
+                    if descriptografar_event == sg.WIN_CLOSED or descriptografar_event == 'Voltar':
+                        descriptografar_window.close()
+                        break
+                    if descriptografar_event == 'Descriptografar':
+                        nome = descriptografar_value[0]
+                        senha = descriptografar_value[1]
+                        arquivo = descriptografar_value[2]
+                        resultado = decifragem(nome, senha, arquivo)
+                        sg.popup(resultado)
+                        descriptografar_window.close()
+                        break
+
 
     if event == 'Gerenciar Chaves':
         gerenciar_layout = [[sg.Text('Escolha uma opção')],

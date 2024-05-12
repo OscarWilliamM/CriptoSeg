@@ -7,14 +7,14 @@ import os
 usuarios = dict()
 mensagens = dict()
 
-def cifragem(nome):
-    usuarios = retorna_usuarios()
-    if nome not in usuarios:
-        print('Usuario não encontrado!')
-        return
-    pub_key = usuarios[nome]['public_key']
+def cifragem(texto, chave_publica, nome):
+    if not os.path.exists('keys'): #cria a pasta keys se ela nao existir
+        os.makedirs('keys')
+    substring = '\n'
+    pub_key = str(chave_publica[:chave_publica.index(substring)]).strip()
+    print(pub_key)
     #carrega o conteudo do arq com o texto claro
-    arquivo = str(input('Digite o nome do arquivo (sem extensao) com a mensagem a ser cifrada: '))
+    arquivo = texto
     try:
         with open(f'{arquivo}.txt', 'rb') as file:
             mensagem = file.read()
@@ -43,43 +43,48 @@ def cifragem(nome):
             mensagens[arquivo] = {'destinatario': f'{nome}', 'identificador': f'{arquivo}_cifrada.txt'}
     with open('mensagens.json', 'w') as jsonfile:
         json.dump(mensagens, jsonfile)
+    return f'arquivo da mensagem cifrada: mensagens_cifradas/{arquivo}_cifrada.txt'
 
-def decifragem(nome):
+def decifragem(nome, senha, arquivo):
     usuarios = retorna_usuarios()
     if nome not in usuarios:
         print('Usuario não encontrado!')
-        return
+        return 'Usuario não encontrado!'
     mensagens = retorna_mensagens()
     minhas_mensagens = []
     for key in mensagens:
         if mensagens[key]['destinatario'] == nome:
             minhas_mensagens.append(key)
 
-    senha_digitada = str(input('Digite a senha para ter acesso a chave privada: '))
+    senha_digitada = senha.strip()
     if senha_digitada != usuarios[nome]['senha']:
         print('Senha incorreta!')
-        return
+        return 'Senha incorreta!'
     priv_key = usuarios[nome]['private_key']
     #importa a chave privada do destinatario
     chave_importada = RSA.import_key(open(f'{priv_key}').read())
     #carrega as mensagens decifrando-as e mostrando na tela
-    arquivo = str(input('Digite o nome do arquivo cifrado (sem extensão) com a mensagem a ser decifrada: '))
+   # arquivo = str(input('Digite o nome do arquivo cifrado (sem extensão) com a mensagem a ser decifrada: '))
     try:
         with open(f'mensagens_cifradas/{arquivo}.txt', 'rb') as file:
             mensagem_cifrada = file.read()
             cipher = PKCS1_OAEP.new(chave_importada)
             mensagem = cipher.decrypt(mensagem_cifrada)
             print(mensagem.decode('utf-8'))
+            return f'texto decifrado:\n\n{mensagem.decode('utf-8')}'
     except:
         print('Arquivo não encontrado ou de acesso não autorizado')
+        return 'Arquivo não encontrado ou de acesso não autorizado'
 
 
 def enviar_mensagem(texto, chave_publica, nome):
     usuarios = retorna_usuarios()
     if nome not in usuarios:
         print('Usuario não encontrado!')
-        return
-    cifragem(texto, chave_publica, nome)
+        return 'Usuario não encontrado!'
+    mensagem = cifragem(texto, chave_publica, nome)
+    print(mensagem)
+    return mensagem
 
 def retorna_usuarios():
     if not os.path.exists('keys'): #cria a pasta keys se ela nao existir
