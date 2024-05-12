@@ -16,8 +16,12 @@ def cifragem(nome):
     pub_key = usuarios[nome]['public_key']
     #carrega o conteudo do arq com o texto claro
     arquivo = str(input('Digite o nome do arquivo (sem extensao) com a mensagem a ser cifrada: '))
-    with open(f'{arquivo}.txt', 'rb') as file:
-        mensagem = file.read()
+    try:
+        with open(f'{arquivo}.txt', 'rb') as file:
+            mensagem = file.read()
+    except FileNotFoundError:
+        print('Arquivo não encontrado!')
+        return
     mensagem = mensagem.decode('utf-8').encode('utf-8')
 
     #importa a chave publica do destinatario
@@ -63,12 +67,14 @@ def decifragem(nome):
     chave_importada = RSA.import_key(open(f'{priv_key}').read())
     #carrega as mensagens decifrando-as e mostrando na tela
     arquivo = str(input('Digite o nome do arquivo cifrado (sem extensão) com a mensagem a ser decifrada: '))
-
-    with open(f'mensagens_cifradas/{arquivo}.txt', 'rb') as file:
-        mensagem_cifrada = file.read()
-        cipher = PKCS1_OAEP.new(chave_importada)
-        mensagem = cipher.decrypt(mensagem_cifrada)
-        print(mensagem.decode('utf-8'))
+    try:
+        with open(f'mensagens_cifradas/{arquivo}.txt', 'rb') as file:
+            mensagem_cifrada = file.read()
+            cipher = PKCS1_OAEP.new(chave_importada)
+            mensagem = cipher.decrypt(mensagem_cifrada)
+            print(mensagem.decode('utf-8'))
+    except FileNotFoundError:
+        print('Arquivo não encontrado!')
 
 
 def enviar_mensagem(texto, chave_publica, nome):
