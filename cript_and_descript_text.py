@@ -84,7 +84,7 @@ def enviar_mensagem(texto, chave_publica, nome):
         return 'Usuario não encontrado!'
     mensagem = cifragem(texto, chave_publica, nome)
     print(mensagem)
-    return mensagem
+    return f'Mensagem cifrada com sucesso!\n\n{mensagem}'
 
 def retorna_usuarios():
     if not os.path.exists('keys'): #cria a pasta keys se ela nao existir

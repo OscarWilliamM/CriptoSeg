@@ -68,7 +68,7 @@ while True:
                         texto = criptografar_value[1]
                         pubkey = search_pubkey(nome)
                         mensagem = enviar_mensagem(texto, pubkey, nome)
-                        sg.popup('Mensagem criptografada com sucesso!', mensagem)
+                        sg.popup(mensagem)
                         criptografar_window.close()
                         break
 
