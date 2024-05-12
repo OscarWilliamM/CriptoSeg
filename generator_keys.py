@@ -8,17 +8,12 @@ import os
 usuarios = dict()
 
 def generate_keys(nome, senha):
-
     if not os.path.exists('keys'): #cria a pasta keys se ela nao existir
         os.makedirs('keys')
     if not os.path.exists('usuarios.json'): #cria o arquivo json se ele não existir
             with open('usuarios.json', 'w') as jsonfile:
                 jsonfile.write('{}')
-<<<<<<< HEAD
-                
-=======
 
->>>>>>> origin/lucas
     with open('usuarios.json', 'r') as jsonfile:
         usuarios = json.load(jsonfile)
     # checa se o nome ja foi cadastrado
@@ -56,21 +51,19 @@ def save_user(nome, priv_key_path, pub_key_path, senha):
 
 #lista todos os nomes associados as chaves publicas
 def list_users():
-    if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
-        with open('usuarios.json', 'r') as jsonfile:
-            usuarios = json.load(jsonfile)
-        for nome in usuarios:
-            print(nome)
-    else:
-        print('não há usuarios cadastrados')
+    usuarios_list = []
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+    for nome in usuarios:
+        usuarios_list.append(nome)
+        
+    return usuarios_list
 
 #fução que busca e retorna a chave publica de um usuario pesquisando pelo nome
 def search_pubkey(nome):
     if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
         with open('usuarios.json', 'r') as jsonfile:
             usuarios = json.load(jsonfile)
-<<<<<<< HEAD
-=======
 
         for user in usuarios:
             if user == nome:
@@ -79,16 +72,7 @@ def search_pubkey(nome):
         print('usuario não encontrado')
     else:
         print('não há usuarios cadastrados')
->>>>>>> origin/lucas
 
-        for user in usuarios:
-            if user == nome:
-                print(usuarios[user]['public_key'])
-                return usuarios[user]['public_key']
-        print('usuario não encontrado')
-    else:
-        print('não há usuarios cadastrados')
-        
 #funcao pesquisa e retorna a chave privada de um usuario buscando pelo nome (necessario senha)
 def search_privkey(nome, senha):
     if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
@@ -102,11 +86,7 @@ def search_privkey(nome, senha):
                     return usuarios[user]['private_key']
                 else:
                     print('senha incorreta')
-<<<<<<< HEAD
-                    
-=======
 
->>>>>>> origin/lucas
         print('usuario não encontrado ou não existe')
     else:
         print('não há usuarios cadastrados')
@@ -138,7 +118,3 @@ if __name__ == '__main__':
     #search_pubkey("joao")
     #search_privkey("marcelo", "1234")
     #delete_keys("paulo mota", "12345")
-<<<<<<< HEAD
-    
-=======
->>>>>>> origin/lucas
