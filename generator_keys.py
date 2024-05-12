@@ -8,7 +8,6 @@ import os
 usuarios = dict()
 
 def generate_keys(nome, senha):
-
     if not os.path.exists('keys'): #cria a pasta keys se ela nao existir
         os.makedirs('keys')
     if not os.path.exists('usuarios.json'): #cria o arquivo json se ele não existir
@@ -52,13 +51,13 @@ def save_user(nome, priv_key_path, pub_key_path, senha):
 
 #lista todos os nomes associados as chaves publicas
 def list_users():
-    if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:
-        with open('usuarios.json', 'r') as jsonfile:
-            usuarios = json.load(jsonfile)
-        for nome in usuarios:
-            print(nome)
-    else:
-        print('não há usuarios cadastrados')
+    usuarios_list = []
+    with open('usuarios.json', 'r') as jsonfile:
+        usuarios = json.load(jsonfile)
+    for nome in usuarios:
+        usuarios_list.append(nome)
+
+    return usuarios_list
 
 #fução que busca e retorna a chave publica de um usuario pesquisando pelo nome
 def search_pubkey(nome):

@@ -4,7 +4,6 @@ from Crypto.Cipher import PKCS1_OAEP
 import json
 import os
 
-
 usuarios = dict()
 mensagens = dict()
 
@@ -44,8 +43,6 @@ def cifragem(nome):
             mensagens[arquivo] = {'destinatario': f'{nome}', 'identificador': f'{arquivo}_cifrada.txt'}
     with open('mensagens.json', 'w') as jsonfile:
         json.dump(mensagens, jsonfile)
-
-
 
 def decifragem(nome):
     usuarios = retorna_usuarios()
