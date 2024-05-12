@@ -71,8 +71,9 @@ def search_pubkey(nome):
                 print(endereco)
                 with open(endereco, 'rb') as f:
                     conteudo = f.read()
-                return f'{usuarios[user]['public_key']}\n\n{conteudo.decode("utf-8")}'
+                return f'Chave pública: {usuarios[user]['public_key']}\n\n{conteudo.decode("utf-8")}'
         print('usuario não encontrado')
+        return 'o nome do usuario não foi encontrado'
     else:
         print('não há usuarios cadastrados')
         return 'o nome do usuario não foi encontrado'
@@ -96,8 +97,10 @@ def search_privkey(nome, senha):
                     return 'senha incorreta'
 
         print('usuario não encontrado ou não existe')
+        return 'usuario nao encontrado ou nao existe'
     else:
         print('não há usuarios cadastrados')
+        return 'não há usuarios cadastrados'
 
 def delete_keys(nome, senha):
     if os.path.exists('usuarios.json') == False or os.path.getsize('usuarios.json') != 0:

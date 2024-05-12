@@ -135,7 +135,7 @@ while True:
                     if pesquisar_event == 'Pesquisar':
                         nome = pesquisar_value[0]
                         pubkey = search_pubkey(nome)
-                        sg.popup('Chave publica:', pubkey)
+                        sg.popup(pubkey)
                         pesquisar_window.close()
                         break
 
