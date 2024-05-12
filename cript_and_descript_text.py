@@ -73,8 +73,8 @@ def decifragem(nome):
             cipher = PKCS1_OAEP.new(chave_importada)
             mensagem = cipher.decrypt(mensagem_cifrada)
             print(mensagem.decode('utf-8'))
-    except FileNotFoundError:
-        print('Arquivo não encontrado!')
+    except:
+        print('Arquivo não encontrado ou de acesso não autorizado')
 
 
 def enviar_mensagem(texto, chave_publica, nome):
